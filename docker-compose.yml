@@ -123,6 +123,7 @@ services:
       - "traefik.http.routers.api.rule=Host(`demo-proxy.localhost`)"
       - "traefik.http.routers.api.service=api@internal"
 
+
 volumes:
   demo-redis-storage:
   demo-mysql-storage:
