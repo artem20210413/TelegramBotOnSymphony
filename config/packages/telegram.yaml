@@ -1,0 +1,3 @@
+parameters:
+  telegram:
+    token: '%env(TELEGRAM)%'
