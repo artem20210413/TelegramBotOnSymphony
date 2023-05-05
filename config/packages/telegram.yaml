@@ -1,3 +1,4 @@
 parameters:
   telegram:
-    token: '%env(TELEGRAM)%'
+    TELEGRAM_DOMAIN: 'api.telegram.org'
+    TELEGRAM_TOKEN: '%env(TELEGRAM)%'

@@ -13,8 +13,8 @@ class TestService
 
     public function test()
     {
-        $ff = $this->parameterBag->get('telegram');
-        dd($ff);
+//        $ff = $this->parameterBag->get('telegram')['token'];
+        dd($this->parameterBag->get('telegram')['TELEGRAM_TOKEN'], $this->parameterBag->get('telegram')['TELEGRAM_DOMAIN']);
     }
 
 }
