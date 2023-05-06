@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Telegram\Message;
+namespace App\Services\Telegram\RequestParams;
 
 
 use JetBrains\PhpStorm\ArrayShape;

@@ -4,7 +4,7 @@
 namespace App\Services\Game\MathQuiz;
 
 
-use App\Services\Telegram\Message\MessageDto;
+use App\Services\Telegram\MessageDto;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MathQuizLogic extends MathQuizExample

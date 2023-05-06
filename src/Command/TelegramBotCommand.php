@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Services\Telegram\TelegramReaderService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,10 +20,10 @@ class TelegramBotCommand extends Command
 {
     public TelegramReaderService $telegramReader;
 
-    public function __construct(public ParameterBagInterface $parameterBag, public EntityManagerInterface $entityManager)
+    public function __construct(public ParameterBagInterface $parameterBag)
     {
         parent::__construct();
-        $this->telegramReader = new TelegramReaderService($parameterBag, $entityManager);
+        $this->telegramReader = new TelegramReaderService($parameterBag);
     }
 
     protected function configure(): void
