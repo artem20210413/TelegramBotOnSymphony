@@ -19,9 +19,7 @@ class CustomQuizzerService
          * Если играет, проверить ответ и дать результат.
          * Если не играет проверить ввел ли он старт
          */
-
     }
-
 
 
     public function createQuestion(array $data): bool
