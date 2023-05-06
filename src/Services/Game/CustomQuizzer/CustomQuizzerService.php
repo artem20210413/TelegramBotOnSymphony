@@ -4,13 +4,25 @@ namespace App\Services\Game\CustomQuizzer;
 
 use App\Entity\CustomQuizzer;
 use App\Entity\CustomQuizzerAnswer;
+use App\Services\Telegram\Message\MessageDto;
+use App\Services\Telegram\Message\TextMessage;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CustomQuizzerService
 {
-    public function __construct(public EntityManagerInterface $entityManager)
+    public function __construct(protected MessageDto $messageDto, protected EntityManagerInterface $entityManager)
     {
+
+        //TODO
+        /**
+         * проверить играет ли этот пользователь.
+         * Если играет, проверить ответ и дать результат.
+         * Если не играет проверить ввел ли он старт
+         */
+
     }
+
+
 
     public function createQuestion(array $data): bool
     {
@@ -28,6 +40,7 @@ class CustomQuizzerService
 
     public function getRandomQuestion(EntityManagerInterface $entityManager): array
     {
+
         $customQuizzer = $entityManager->getRepository(CustomQuizzer::class)->findAll();
         $randomIndex = rand(0, count($customQuizzer) - 1);
         $randomCustomQuizzer = $customQuizzer[$randomIndex];
@@ -38,7 +51,7 @@ class CustomQuizzerService
         return [$randomCustomQuizzer, $customQuizzerAnswer];
     }
 
-    public function saveNewQuiz(EntityManagerInterface $entityManager, string $task, array $answers)
+    private function saveNewQuiz(EntityManagerInterface $entityManager, string $task, array $answers)
     {
         $customQuizzer = new CustomQuizzer();
         $customQuizzer->setTask($task);
@@ -57,5 +70,10 @@ class CustomQuizzerService
         $entityManager->flush();
     }
 
+    public function getTextMessage(): TextMessage
+    {
+
+        return new TextMessage();
+    }
 
 }
