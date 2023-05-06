@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
     name: 'TelegramBotCommand',
@@ -19,10 +20,10 @@ class TelegramBotCommand extends Command
 {
     public TelegramReaderService $telegramReader;
 
-    public function __construct()
+    public function __construct(public ParameterBagInterface $parameterBag)
     {
         parent::__construct();
-        $this->telegramReader = new TelegramReaderService();
+        $this->telegramReader = new TelegramReaderService($parameterBag);
     }
 
     protected function configure(): void
@@ -37,7 +38,6 @@ class TelegramBotCommand extends Command
 
         try {
             $offset = 0;
-
             while (true) {
                 $offset = $this->telegramReader->getUpdates($offset);
                 echo 'offset: ' . $offset . '. At work...' . PHP_EOL;

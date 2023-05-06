@@ -4,11 +4,17 @@
 namespace App\Services\Telegram;
 
 
-use App\Http\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Http\Services\Telegram\RequestParams\TextMessage;
+use App\Services\Telegram\RequestParams\GetUpdateParams;
+use App\Services\Telegram\RequestParams\TextMessage;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramRespondService extends TelegramClient
 {
+
+    public function __construct(public ParameterBagInterface $parameterBag)
+    {
+        parent::__construct($parameterBag);
+    }
     public function sendMessages(TextMessage $message)
     {
         $this->makeRequest(TelegramApiMethodDictionary::METHOD_SEND_MESSAGE, $message);

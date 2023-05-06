@@ -4,14 +4,20 @@
 namespace App\Services\Telegram;
 
 
-use App\Http\Services\Game\MathQuiz\MathQuizLogic;
-use App\Http\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Http\Services\Telegram\RequestParams\TextMessage;
+use App\Services\Telegram\TelegramRespondService;
+use App\Services\Game\MathQuiz\MathQuizLogic;
+use App\Services\Telegram\RequestParams\GetUpdateParams;
+use App\Services\Telegram\RequestParams\TextMessage;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramReaderService extends TelegramClient
 {
-    public function __construct()
+    public TelegramRespondService $respondService;
+
+    public function __construct(public ParameterBagInterface $parameterBag)
     {
+        $this->respondService = new TelegramRespondService($parameterBag);
+        parent::__construct($parameterBag);
     }
 
     public function getUpdates(int $offset = 0): int
@@ -41,7 +47,7 @@ class TelegramReaderService extends TelegramClient
 
     private function handleMathQuizMessage(MessageDto $message)
     {
-        $mathEx = new MathQuizLogic($message);
+        $mathEx = new MathQuizLogic($message, $this->parameterBag);
         $tMessage = new TextMessage();
         $tMessage->setChatId($message->getChatId());
         $tMessage->setReplyToMessageId($message->getMessageId());
