@@ -4,8 +4,8 @@
 namespace App\Services\Telegram;
 
 
-use App\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Services\Telegram\RequestParams\IToArray;
+use App\Services\Telegram\Messages\GetUpdateParams;
+use App\Services\Telegram\Messages\IToArray;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\HttpClient;
 

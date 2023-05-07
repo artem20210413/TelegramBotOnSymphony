@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Telegram\RequestParams;
+namespace App\Services\Telegram\Messages;
 
 
 class TextMessage implements IToArray

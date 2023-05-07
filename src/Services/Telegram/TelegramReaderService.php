@@ -4,17 +4,19 @@
 namespace App\Services\Telegram;
 
 
-use App\Services\Telegram\TelegramRespondService;
+use App\Services\Game\CustomQuizzer\CustomQuizzerService;
 use App\Services\Game\MathQuiz\MathQuizLogic;
-use App\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Services\Telegram\RequestParams\TextMessage;
+use App\Services\Telegram\Messages\GetUpdateParams;
+use App\Services\Telegram\Messages\MessageDto;
+use App\Services\Telegram\Messages\TextMessage;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramReaderService extends TelegramClient
 {
     public TelegramRespondService $respondService;
 
-    public function __construct(public ParameterBagInterface $parameterBag)
+    public function __construct(public ParameterBagInterface $parameterBag, public EntityManagerInterface $entityManager)
     {
         $this->respondService = new TelegramRespondService($parameterBag);
         parent::__construct($parameterBag);
@@ -29,7 +31,7 @@ class TelegramReaderService extends TelegramClient
         }
         foreach ($messages as $message) {
             $messagesDto = new MessageDto($message);
-            //$this->handleMathQuizMessage($messagesDto);
+            $this->handleCustomQuizzer($messagesDto);
         }
         return $messagesDto->getUpdateId();
 
@@ -59,6 +61,8 @@ class TelegramReaderService extends TelegramClient
 
     private function handleCustomQuizzer(MessageDto $message)
     {
+        $customQuizzerService = new CustomQuizzerService($this->entityManager);
+
 
     }
 

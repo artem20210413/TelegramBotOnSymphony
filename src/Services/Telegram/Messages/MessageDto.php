@@ -1,8 +1,10 @@
 <?php
 
 
-namespace App\Services\Telegram;
+namespace App\Services\Telegram\Messages;
 
+
+use App\Services\Telegram\UserDto;
 
 class MessageDto
 {

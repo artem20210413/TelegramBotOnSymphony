@@ -4,8 +4,8 @@
 namespace App\Services\Telegram;
 
 
-use App\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Services\Telegram\RequestParams\TextMessage;
+use App\Services\Telegram\Messages\GetUpdateParams;
+use App\Services\Telegram\Messages\TextMessage;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramRespondService extends TelegramClient
