@@ -4,8 +4,6 @@
 namespace App\Services\Telegram;
 
 
-
-
 class MessageDto
 {
 

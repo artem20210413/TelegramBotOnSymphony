@@ -7,6 +7,7 @@ namespace App\Services\Telegram;
 use App\Services\Telegram\RequestParams\GetUpdateParams;
 use App\Services\Telegram\RequestParams\IToArray;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpClient\HttpClient;
 
 class TelegramClient
 {
@@ -14,11 +15,21 @@ class TelegramClient
     {
     }
 
-    protected function makeRequest(string $method, IToArray $params)
+    protected function makeRequest(string $method, IToArray $params): array
     {
-        $response = Http::get($this->getBasicUrl() . $method . '?' . http_build_query($params->toArray()));
+//        $response = Http::get($this->getBasicUrl() . $method . '?' . http_build_query($params->toArray()));
+        $client = HttpClient::create();
+        $url = $this->getBasicUrl() . $method . '?' . http_build_query($params->toArray());
+        $response = $client->request('GET', $url);
 
-        return $this->getResult($response->json());
+        if ($response->getStatusCode() === 200) {
+            $content = json_decode($response->getContent(), true);
+
+            return $content['result'];
+        } else {
+
+            return [];
+        }
     }
 
     private function getBasicUrl()
@@ -36,9 +47,9 @@ class TelegramClient
         return $this->parameterBag->get('telegram')['TELEGRAM_TOKEN']; //config('telegram.TELEGRAM_TOKEN');
     }
 
-    protected function getResult(array $json)
+    protected function getResult($json)
     {
-        $this->isOk($json);
+        dd();
         return $json['result'];
     }
 

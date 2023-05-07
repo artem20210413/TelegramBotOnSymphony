@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ActionServiceRepository;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ActionServiceRepository::class)]
-class ActionService
+#[ORM\Entity(repositoryClass: ReportRepository::class)]
+class Report
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $report_message = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $message = null;
+    #[ORM\Column]
+    private ?bool $is_processed = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -27,26 +27,26 @@ class ActionService
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    public function getReportMessage(): ?string
     {
-        return $this->user_id;
+        return $this->report_message;
     }
 
-    public function setUserId(int $user_id): self
+    public function setReportMessage(?string $report_message): self
     {
-        $this->user_id = $user_id;
+        $this->report_message = $report_message;
 
         return $this;
     }
 
-    public function getMessage(): ?string
+    public function isIsProcessed(): ?bool
     {
-        return $this->message;
+        return $this->is_processed;
     }
 
-    public function setMessage(string $message): self
+    public function setIsProcessed(bool $is_processed): self
     {
-        $this->message = $message;
+        $this->is_processed = $is_processed;
 
         return $this;
     }

@@ -43,7 +43,8 @@ class TelegramBotCommand extends Command
                 echo 'offset: ' . $offset . '. At work...' . PHP_EOL;
                 sleep(1);
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (\Exception $e) {
+            dd($e->getMessage());
             return $e->getMessage();
         }
 //        $io = new SymfonyStyle($input, $output);

@@ -29,7 +29,7 @@ class TelegramReaderService extends TelegramClient
         }
         foreach ($messages as $message) {
             $messagesDto = new MessageDto($message);
-            $this->handleMathQuizMessage($messagesDto);
+            //$this->handleMathQuizMessage($messagesDto);
         }
         return $messagesDto->getUpdateId();
 
@@ -54,6 +54,12 @@ class TelegramReaderService extends TelegramClient
         $tMessage->setText($mathEx->responseMessage());
 
         $this->respondService->sendMessages($tMessage);
+    }
+
+
+    private function handleCustomQuizzer(MessageDto $message)
+    {
+
     }
 
 
