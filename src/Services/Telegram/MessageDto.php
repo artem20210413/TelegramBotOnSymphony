@@ -1,17 +1,10 @@
 <?php
 
 
-namespace App\Services\Telegram\Message;
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of c731978 (Revert "bug MessageDto")
+namespace App\Services\Telegram;
 
 
-use App\Services\Telegram\UserDto;
-use Symfony\Component\Validator\Constraints\DateTime;
 
-use App\Services\Telegram\UserDto;
 
 class MessageDto
 {
@@ -19,7 +12,7 @@ class MessageDto
     private int $updateId;
     private int $messageId;
     private UserDto $userDto;
-    private mixed $date;
+    private $date;
     private int $chatId;
     private string $text;
 
@@ -32,12 +25,12 @@ class MessageDto
     {
         $this->validation($message);
 
-        $this->setUpdateId($message['update_id'] ?? null)
-            ->setMessageId($message['message']['message_id'] ?? null)
-            ->setUserDto($message['message']['from'] ?? null)
-            ->setDate($message['message']['date'] ?? null)
-            ->setText($message['message']['text'] ?? null)
-            ->setChatId($message['message']['chat']['id'] ?? null);
+        $this->setUpdateId($message['update_id'])
+            ->setMessageId($message['message']['message_id'])
+            ->setUserDto($message['message']['from'])
+            ->setDate($message['message']['date'])
+            ->setText($message['message']['text'])
+            ->setChatId($message['message']['chat']['id']);
     }
 
     private function validation(array $message)
