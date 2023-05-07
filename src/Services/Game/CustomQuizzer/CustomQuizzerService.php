@@ -23,12 +23,12 @@ class CustomQuizzerService
     }
 
 
-
     public function createQuestion(array $data): bool
     {
         $task = $data['task'] ?? null;
         $answer = $data['answer'] ?? null;
 
+        dd($data);
         if ($task && $answer) {
             $this->saveNewQuiz($this->entityManager, $task, $answer);
 

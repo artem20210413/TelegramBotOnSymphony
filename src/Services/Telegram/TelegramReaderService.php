@@ -4,10 +4,10 @@
 namespace App\Services\Telegram;
 
 
-use App\Services\Telegram\TelegramRespondService;
 use App\Services\Game\MathQuiz\MathQuizLogic;
-use App\Services\Telegram\RequestParams\GetUpdateParams;
-use App\Services\Telegram\RequestParams\TextMessage;
+use App\Services\Telegram\Message\GetUpdateParams;
+use App\Services\Telegram\Message\MessageDto;
+use App\Services\Telegram\Message\TextMessage;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramReaderService extends TelegramClient
