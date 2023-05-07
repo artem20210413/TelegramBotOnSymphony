@@ -2,8 +2,8 @@
 
 namespace App\Services\Game\CustomQuizzer;
 
-use App\Entity\CustomQuizzer;
-use App\Entity\CustomQuizzerAnswer;
+use App\Entity\CustonQuizzer;
+use App\Entity\CustonQuizzerAnswer;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CustomQuizzerService
@@ -28,11 +28,11 @@ class CustomQuizzerService
 
     public function getRandomQuestion(EntityManagerInterface $entityManager): array
     {
-        $customQuizzer = $entityManager->getRepository(CustomQuizzer::class)->findAll();
+        $customQuizzer = $entityManager->getRepository(CustonQuizzer::class)->findAll();
         $randomIndex = rand(0, count($customQuizzer) - 1);
         $randomCustomQuizzer = $customQuizzer[$randomIndex];
 
-        $customQuizzerAnswer = $entityManager->getRepository(CustomQuizzerAnswer::class)->findBy(['custom_quizzer_id' => $randomCustomQuizzer->getId()]);
+        $customQuizzerAnswer = $entityManager->getRepository(CustonQuizzerAnswer::class)->findBy(['custom_quizzer_id' => $randomCustomQuizzer->getId()]);
         shuffle($customQuizzerAnswer);
 
         return [$randomCustomQuizzer, $customQuizzerAnswer];
@@ -40,7 +40,7 @@ class CustomQuizzerService
 
     public function saveNewQuiz(EntityManagerInterface $entityManager, string $task, array $answers)
     {
-        $customQuizzer = new CustomQuizzer();
+        $customQuizzer = new CustonQuizzer();
         $customQuizzer->setTask($task);
 
         $entityManager->persist($customQuizzer);
@@ -48,7 +48,7 @@ class CustomQuizzerService
 
 
         foreach ($answers as $key => $answer) {
-            $customQuizzerAnswer = new CustomQuizzerAnswer();
+            $customQuizzerAnswer = new CustonQuizzerAnswer();
             $customQuizzerAnswer->setCustomQuizzerId($customQuizzer->getId());
             $customQuizzerAnswer->setAnswer($answer);
             $customQuizzerAnswer->setIsCorrect($key === 0);

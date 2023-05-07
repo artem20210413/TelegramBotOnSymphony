@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NewQuestionController extends AbstractController
 {
-    #[Route('/new/question', name: 'app_new_question', methods: 'POST')]
+    #[Route('/api/v1/new/question', name: 'app_new_question', methods: 'POST')]
     public function index(Request $request, CustomQuizzerService $customQuizzerService): Response
     {
         $data = json_decode($request->getContent(), true);
