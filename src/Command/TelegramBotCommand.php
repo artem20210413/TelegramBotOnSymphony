@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 #[AsCommand(
     name: 'TelegramBotCommand',
@@ -21,10 +20,17 @@ class TelegramBotCommand extends Command
 {
     public TelegramReaderService $telegramReader;
 
+<<<<<<< HEAD
     public function __construct(public ParameterBagInterface $parameterBag, public EntityManagerInterface $entityManager)
     {
         parent::__construct();
         $this->telegramReader = new TelegramReaderService($parameterBag, $entityManager);
+=======
+    public function __construct()
+    {
+        parent::__construct();
+        $this->telegramReader = new TelegramReaderService();
+>>>>>>> parent of 2e4040f (moved project in symfony)
     }
 
     protected function configure(): void
@@ -39,6 +45,7 @@ class TelegramBotCommand extends Command
 
         try {
             $offset = 0;
+
             while (true) {
                 $offset = $this->telegramReader->getUpdates($offset);
                 echo 'offset: ' . $offset . '. At work...' . PHP_EOL;
