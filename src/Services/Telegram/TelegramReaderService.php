@@ -4,17 +4,25 @@
 namespace App\Services\Telegram;
 
 
+<<<<<<< HEAD
+=======
+use App\Services\Game\CustomQuizzer\CustomQuizzerService;
+>>>>>>> parent of c731978 (Revert "bug MessageDto")
 use App\Services\Game\MathQuiz\MathQuizLogic;
 use App\Services\Telegram\Message\GetUpdateParams;
 use App\Services\Telegram\Message\MessageDto;
 use App\Services\Telegram\Message\TextMessage;
+<<<<<<< HEAD
+=======
+use Doctrine\ORM\EntityManagerInterface;
+>>>>>>> parent of c731978 (Revert "bug MessageDto")
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TelegramReaderService extends TelegramClient
 {
     public TelegramRespondService $respondService;
 
-    public function __construct(public ParameterBagInterface $parameterBag)
+    public function __construct(public ParameterBagInterface $parameterBag, public EntityManagerInterface $entityManager)
     {
         $this->respondService = new TelegramRespondService($parameterBag);
         parent::__construct($parameterBag);
@@ -27,23 +35,26 @@ class TelegramReaderService extends TelegramClient
         if (!$messages) {
             return 0;
         }
+
+        $lastUpdateId = 0;
         foreach ($messages as $message) {
-            $messagesDto = new MessageDto($message);
-            $this->handleMathQuizMessage($messagesDto);
+            $messageDto = new MessageDto($message);
+            $this->handleCustomQuizzer($messageDto);
+            $lastUpdateId = $messageDto->getUpdateId();
         }
-        return $messagesDto->getUpdateId();
 
+        return $lastUpdateId;
     }
 
-    private function handleMessage(MessageDto $message)
-    {
-        $tMessage = new TextMessage();
-        $tMessage->setChatId($message->getChatId());
-        $tMessage->setReplyToMessageId($message->getMessageId());
-        $tMessage->setText($message->getText());
-
-        $this->respondService->sendMessages($tMessage);
-    }
+//    private function handleMessage(MessageDto $message)
+//    {
+//        $tMessage = new TextMessage();
+//        $tMessage->setChatId($message->getChatId());
+//        $tMessage->setReplyToMessageId($message->getMessageId());
+//        $tMessage->setText($message->getText());
+//
+//        $this->respondService->sendMessages($tMessage);
+//    }
 
     private function handleMathQuizMessage(MessageDto $message)
     {
@@ -53,6 +64,14 @@ class TelegramReaderService extends TelegramClient
         $tMessage->setReplyToMessageId($message->getMessageId());
         $tMessage->setText($mathEx->responseMessage());
 
+        $this->respondService->sendMessages($tMessage);
+    }
+
+    private function handleCustomQuizzer(MessageDto $message)
+    {
+        $customQuizzerService = new CustomQuizzerService($message, $this->entityManager);
+        dd('handleCustomQuizzer');
+        $tMessage = $customQuizzerService->getTextMessage();
         $this->respondService->sendMessages($tMessage);
     }
 
