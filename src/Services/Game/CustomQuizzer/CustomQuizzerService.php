@@ -120,15 +120,12 @@ class CustomQuizzerService
         return $this;
     }
 
-    public function game(): void
+    public function core(): void
     {
-
         $user_id = $this->messageDto->getUserDto()->getId();
-
         $actionServices = $this->entityManager->getRepository(ActionServices::class)->findOneBy(
             ['user_id' => $user_id, 'is_answer' => 0] // Условие WHERE: ff = 10
         );
-
         if ($actionServices) {
             $actionUser = $this->entityManager->getRepository(ActionUsers::class)->findOneBy(
                 ['user_id' => $user_id],
@@ -140,7 +137,6 @@ class CustomQuizzerService
                 $responseText = $this->getTextForMessage(false, (string)$actionUser->isIsCorrect());
             }
         } else {
-
             $responseText = $this->getTextForMessage();
         }
 
@@ -151,19 +147,17 @@ class CustomQuizzerService
     {
         if ($is_correct) {
             $headerText = 'Ответ верный!' . PHP_EOL;
-            $this->addPoints($is_correct);
+            $this->addPoints(true);
         } else if ($is_correct === false) {
             $headerText = 'Ответ НЕ верный!' . PHP_EOL . 'Ответ: ' . $correct . PHP_EOL;
-            $this->addPoints($is_correct);
+            $this->addPoints(false);
         } else {
             $headerText = '';
         }
 
         $randomQuestion = $this->getRandomQuestion();
-        $correct = $randomQuestion['correct'] ?? '';
-        $textQuestion = $randomQuestion['textQuestion'] ?? '';
-        $headerText .= $textQuestion;
-        $this->actionUserService($correct, $headerText);
+        $headerText .= $randomQuestion['textQuestion'] ?? '';
+        $this->actionUserService($randomQuestion['correct'] ?? '', $headerText);
 
         return $headerText;
     }
@@ -176,7 +170,7 @@ class CustomQuizzerService
         $entityManager = clone $this->entityManager;
         $user_id = $this->messageDto->getUserDto()->getId();
         $userPoints = $this->entityManager->getRepository(UserPoints::class)->findOneBy(
-            ['user_id' => $user_id] // Условие WHERE: ff = 10
+            ['user_id' => $user_id]
         );
         if (!$userPoints) {
             $userPoints = new UserPoints();
@@ -199,12 +193,26 @@ class CustomQuizzerService
             'user_id' => $this->messageDto->getUserDto()->getId(),
             'is_answer' => 0,
         ]);
+
         foreach ($actionServices as $service) {
             $service->setIsAnswer(1);
             $entityManager->persist($service);
         }
-        //получить все $actionServices с UserId = $this->messageDto->getUserDto()->getId() и IsAnswer = 0, после чего поле IsAnswer  заменить на 1
 
+        $this->createActions($correct, $entityManager, $headerText);
+
+        $entityManager->flush();
+
+    }
+
+    /**
+     * @param string $correct
+     * @param EntityManagerInterface $entityManager
+     * @param string $headerText
+     * @return void
+     */
+    private function createActions(string $correct, EntityManagerInterface &$entityManager, string $headerText): void
+    {
         $actionUsers = new ActionUsers();
         $actionUsers->setUserId($this->messageDto->getUserDto()->getId());
         $actionUsers->setIsCorrect($correct);
@@ -217,9 +225,6 @@ class CustomQuizzerService
         $actionServices->setIsAnswer(0);
         $actionServices->setCreatedAt(new \DateTimeImmutable());
         $entityManager->persist($actionServices);
-
-        $entityManager->flush();
-
     }
 
 }

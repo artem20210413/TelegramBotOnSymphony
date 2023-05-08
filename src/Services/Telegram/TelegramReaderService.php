@@ -63,7 +63,7 @@ class TelegramReaderService extends TelegramClient
     {
         $customQuizzerService = new CustomQuizzerService($this->entityManager);
         $customQuizzerService->setMessageDto($message);
-        $customQuizzerService->game();
+        $customQuizzerService->core();
         $tMessage = $customQuizzerService->getTextMessage();
         $this->respondService->sendMessages($tMessage);
     }
