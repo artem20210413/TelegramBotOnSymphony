@@ -32,38 +32,40 @@ class TelegramReaderService extends TelegramClient
         foreach ($messages as $message) {
             $messagesDto = new MessageDto($message);
             $this->handleCustomQuizzer($messagesDto);
+            $countUSerId = $messagesDto->getUpdateId();
         }
-        return $messagesDto->getUpdateId();
-
+        return $countUSerId ?? 0;
     }
 
-    private function handleMessage(MessageDto $message)
-    {
-        $tMessage = new TextMessage();
-        $tMessage->setChatId($message->getChatId());
-        $tMessage->setReplyToMessageId($message->getMessageId());
-        $tMessage->setText($message->getText());
-
-        $this->respondService->sendMessages($tMessage);
-    }
-
-    private function handleMathQuizMessage(MessageDto $message)
-    {
-        $mathEx = new MathQuizLogic($message, $this->parameterBag);
-        $tMessage = new TextMessage();
-        $tMessage->setChatId($message->getChatId());
-        $tMessage->setReplyToMessageId($message->getMessageId());
-        $tMessage->setText($mathEx->responseMessage());
-
-        $this->respondService->sendMessages($tMessage);
-    }
+//    private function handleMessage(MessageDto $message)
+//    {
+//        $tMessage = new TextMessage();
+//        $tMessage->setChatId($message->getChatId());
+//        $tMessage->setReplyToMessageId($message->getMessageId());
+//        $tMessage->setText($message->getText());
+//
+//        $this->respondService->sendMessages($tMessage);
+//    }
+//
+//    private function handleMathQuizMessage(MessageDto $message)
+//    {
+//        $mathEx = new MathQuizLogic($message, $this->parameterBag);
+//        $tMessage = new TextMessage();
+//        $tMessage->setChatId($message->getChatId());
+//        $tMessage->setReplyToMessageId($message->getMessageId());
+//        $tMessage->setText($mathEx->responseMessage());
+//
+//        $this->respondService->sendMessages($tMessage);
+//    }
 
 
     private function handleCustomQuizzer(MessageDto $message)
     {
         $customQuizzerService = new CustomQuizzerService($this->entityManager);
-
-
+        $customQuizzerService->setMessageDto($message);
+        $customQuizzerService->game();
+        $tMessage = $customQuizzerService->getTextMessage();
+        $this->respondService->sendMessages($tMessage);
     }
 
 

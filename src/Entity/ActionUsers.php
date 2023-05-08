@@ -17,7 +17,7 @@ class ActionUsers
     private ?int $user_id = null;
 
     #[ORM\Column]
-    private ?bool $is_correct = null;
+    private ?string $is_correct = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
@@ -39,12 +39,12 @@ class ActionUsers
         return $this;
     }
 
-    public function isIsCorrect(): ?bool
+    public function isIsCorrect(): ?string
     {
         return $this->is_correct;
     }
 
-    public function setIsCorrect(bool $is_correct): self
+    public function setIsCorrect(string $is_correct): self
     {
         $this->is_correct = $is_correct;
 

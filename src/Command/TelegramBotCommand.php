@@ -37,29 +37,16 @@ class TelegramBotCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
 
-        try {
+//        try {
             $offset = 0;
             while (true) {
                 $offset = $this->telegramReader->getUpdates($offset);
                 echo 'offset: ' . $offset . '. At work...' . PHP_EOL;
                 sleep(1);
             }
-        } catch (\Exception $e) {
-            return $e->getMessage();
-        }
-//        $io = new SymfonyStyle($input, $output);
-//        $arg1 = $input->getArgument('arg1');
-//
-//        if ($arg1) {
-//            $io->note(sprintf('You passed an argument: %s', $arg1));
+//        } catch (\Exception $e) {
+//            return $e->getMessage();
 //        }
-//
-//        if ($input->getOption('option1')) {
-//            // ...
-//        }
-//
-//        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
-//
-//        return Command::SUCCESS;
+
     }
 }
