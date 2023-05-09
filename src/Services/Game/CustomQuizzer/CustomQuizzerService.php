@@ -49,7 +49,8 @@ class CustomQuizzerService
         $randomIndex = rand(0, count($customQuizzer) - 1);
         $randomCustomQuizzer = $customQuizzer[$randomIndex];
 
-        $customQuizzerAnswer = $this->entityManager->getRepository(CustonQuizzerAnswer::class)->findBy(['custom_quizzer_id' => $randomCustomQuizzer->getId()]);
+        $customQuizzerAnswer = $this->entityManager->getRepository(CustonQuizzerAnswer::class)
+            ->findBy(['custom_quizzer_id' => $randomCustomQuizzer->getId()]);
         $correct = $customQuizzerAnswer[0]->getAnswer();
         shuffle($customQuizzerAnswer);
 

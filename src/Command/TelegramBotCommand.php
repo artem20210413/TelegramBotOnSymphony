@@ -36,17 +36,16 @@ class TelegramBotCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-
-//        try {
+        try {
             $offset = 0;
             while (true) {
                 $offset = $this->telegramReader->getUpdates($offset);
                 echo 'offset: ' . $offset . '. At work...' . PHP_EOL;
                 sleep(1);
             }
-//        } catch (\Exception $e) {
-//            return $e->getMessage();
-//        }
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
 
     }
 }

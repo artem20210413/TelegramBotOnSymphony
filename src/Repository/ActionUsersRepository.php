@@ -39,6 +39,21 @@ class ActionUsersRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function getCountActiveUsers(): int
+    {
+
+        $hourAgo = new \DateTime();
+        $hourAgo->modify('-1 hour');
+
+        $count = $this->createQueryBuilder('p')
+            ->select('count(DISTINCT(p.user_id))')
+            ->where('p.created_at > :hourAgo')
+            ->setParameter('hourAgo', $hourAgo)
+            ->getQuery()
+            ->getSingleScalarResult();
+        return $count;
+    }
 //    /**
 //     * @return ActionUsers[] Returns an array of ActionUsers objects
 //     */

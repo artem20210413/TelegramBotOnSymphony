@@ -62,4 +62,10 @@ class Report
 
         return $this;
     }
+
+    public function currentCreatedAt(): self
+    {
+        $this->created_at = new \DateTimeImmutable();
+        return $this;
+    }
 }

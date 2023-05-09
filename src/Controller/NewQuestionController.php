@@ -10,6 +10,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NewQuestionController extends AbstractController
 {
+    /**
+     * @param Request {
+     * "task": "5*5",
+     * "answer": ["25","30","-50"]
+     * @param CustomQuizzerService $customQuizzerService
+     * @return Response
+     */
     #[Route('/api/v1/new/question', name: 'app_new_question', methods: 'POST')]
     public function index(Request $request, CustomQuizzerService $customQuizzerService): Response
     {
