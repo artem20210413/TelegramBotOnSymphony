@@ -15,11 +15,14 @@ class File
 
         $csvData = $serializer->serialize($data, CsvEncoder::FORMAT, ['csv_delimiter' => ';']);
 
+        $currentDateTime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
+        $dateString = $currentDateTime->format('Y-m-d H:i:s');
+
         return new StreamedResponse(function () use ($csvData) {
             echo $csvData;
         }, 200, [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="имя_файла.csv"',
+            'Content-Disposition' => 'attachment; filename="' . $dateString . '.csv"',
         ]);
     }
 }

@@ -214,12 +214,32 @@ class CustomQuizzerService
      */
     private function createActions(string $correct, EntityManagerInterface &$entityManager, string $headerText): void
     {
+        $this->saveActionUser($correct, $entityManager);
+
+        $this->saveActionService($headerText, $entityManager);
+    }
+
+    /**
+     * @param string $correct
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
+    public function saveActionUser(string $correct, EntityManagerInterface $entityManager): void
+    {
         $actionUsers = new ActionUsers();
         $actionUsers->setUserId($this->messageDto->getUserDto()->getId());
         $actionUsers->setIsCorrect($correct);
         $actionUsers->setCreatedAt(new \DateTimeImmutable());
         $entityManager->persist($actionUsers);
+    }
 
+    /**
+     * @param string $headerText
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
+    public function saveActionService(string $headerText, EntityManagerInterface $entityManager): void
+    {
         $actionServices = new ActionServices();
         $actionServices->setUserId($this->messageDto->getUserDto()->getId());
         $actionServices->setMessage($headerText);

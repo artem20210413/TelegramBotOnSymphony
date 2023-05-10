@@ -45,7 +45,7 @@ class ReportRepository extends ServiceEntityRepository
         $report = $this->find($id);
 
         if (!$report) {
-            throw $this->createNotFoundException('Запись с указанным идентификатором не найдена');
+            throw $this->createNotFoundException('Record with specified id not found.');
         }
 
         $report->setIsProcessed(1);
@@ -57,7 +57,6 @@ class ReportRepository extends ServiceEntityRepository
 
     public function getDataById(int $id): array
     {
-        $entityManager = $this->getEntityManager();
         $report = $this->find($id);
         $dataString = $report->getReportMessage();
         return unserialize($dataString);
@@ -65,33 +64,7 @@ class ReportRepository extends ServiceEntityRepository
 
     public function getStatus(int $id): string
     {
-        $entityManager = $this->getEntityManager();
         $report = $this->find($id);
         return isset($report) ? $report->isIsProcessed() ? 'ready' : 'not ready' : 'not found';
     }
-
-//    /**
-//     * @return Report[] Returns an array of Report objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Report
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

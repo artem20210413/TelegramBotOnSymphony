@@ -17,7 +17,6 @@ class TelegramClient
 
     protected function makeRequest(string $method, IToArray $params): array
     {
-//        $response = Http::get($this->getBasicUrl() . $method . '?' . http_build_query($params->toArray()));
         $client = HttpClient::create();
         $url = $this->getBasicUrl() . $method . '?' . http_build_query($params->toArray());
         $response = $client->request('GET', $url);
@@ -49,7 +48,6 @@ class TelegramClient
 
     protected function getResult($json)
     {
-        dd();
         return $json['result'];
     }
 

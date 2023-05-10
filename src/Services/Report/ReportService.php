@@ -2,8 +2,6 @@
 
 namespace App\Services\Report;
 
-use App\Entity\ActionUsers;
-use App\Entity\CustonQuizzerAnswer;
 use App\Entity\Report;
 use App\Services\File\File;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +35,6 @@ class ReportService
         $entityManager->flush();
 
         $this->generationReport($report);
-        $this->download($report->getId()); //TODO вынести в отдельную апи
         return $report->getId();
     }
 
@@ -54,7 +51,6 @@ class ReportService
         $file = new CsvService($reportDto);
         $data = $file->getData();
         $this->reportRepository->reportCompleted($report->getId(), $data);
-        return $file->generateAndSaveCsvFile($this->serializer);
 
     }
 
@@ -74,7 +70,7 @@ class ReportService
         return round(($countIncorrect * 100 / $countAll), 2);
     }
 
-    public function download(int $id): Response //TODO создать API
+    public function download(int $id): Response
     {
 
         $data = $this->reportRepository->getDataById($id);
