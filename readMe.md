@@ -18,3 +18,12 @@
       1. Push message to queue - `php ./src/rabbit/publish.php`
       2. Read message from queue - `php ./src/rabbit/consume.php`
 4. It's all!) Now you can modify any code for your needs.
+
+# How to start
+Need to add telegram secret key to env!
+   `TELEGRAM=KEY`
+1. `docker exec -it demo-app sh`
+2. `./bin/console TelegramBotCommand`
+
+# API requests
+

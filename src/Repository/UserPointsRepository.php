@@ -39,6 +39,14 @@ class UserPointsRepository extends ServiceEntityRepository
         }
     }
 
+    public function countUsers()
+    {
+        return $this->createQueryBuilder('up')
+            ->select('count(up.user_id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 //    /**
 //     * @return UserPoints[] Returns an array of UserPoints objects
 //     */

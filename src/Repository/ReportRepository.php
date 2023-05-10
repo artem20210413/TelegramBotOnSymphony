@@ -39,6 +39,31 @@ class ReportRepository extends ServiceEntityRepository
         }
     }
 
+    public function reportCompleted(int $id, string $data): void
+    {
+        $entityManager = $this->getEntityManager();
+        $report = $this->find($id);
+
+        if (!$report) {
+            throw $this->createNotFoundException('Запись с указанным идентификатором не найдена');
+        }
+
+        $report->setIsProcessed(1);
+        $report->setReportMessage($data);
+
+        $entityManager->flush();
+    }
+
+
+    public function getDataById(int $id): array
+    {
+        $entityManager = $this->getEntityManager();
+        $report = $this->find($id);
+        $dataString = $report->getReportMessage();
+        return unserialize($dataString);
+    }
+
+
 //    /**
 //     * @return Report[] Returns an array of Report objects
 //     */

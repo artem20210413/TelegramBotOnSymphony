@@ -39,28 +39,35 @@ class ActionServicesRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return ActionServices[] Returns an array of ActionServices objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getCorrectAnswers(): int
+    {
+        $countCorrect = $this->createQueryBuilder('p')
+            ->select('count(p.user_id)')
+            ->where("p.message LIKE '%Ответ верный!%'")
+            ->getQuery()
+            ->getSingleScalarResult();
+        return $countCorrect;
 
-//    public function findOneBySomeField($value): ?ActionServices
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    }
+
+
+    public function getAllAnswers(): int
+    {
+        $countCorrect = $this->createQueryBuilder('p')
+            ->select('count(p.user_id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        return $countCorrect;
+    }
+
+
+    public function getInCorrectAnswers(): int
+    {
+        $countCorrect = $this->createQueryBuilder('p')
+            ->select('count(p.user_id)')
+            ->where("p.message LIKE '%Ответ НЕ верный!%'")
+            ->getQuery()
+            ->getSingleScalarResult();
+        return $countCorrect;
+    }
 }
