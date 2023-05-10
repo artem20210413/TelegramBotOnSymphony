@@ -27,12 +27,13 @@ class CsvService implements IFile
         // Преобразование данных в CSV-формат
         $csvData = $serializer->serialize($data, CsvEncoder::FORMAT, ['csv_delimiter' => ';']);
 
+        $currentDateTime = \DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));
         // Возвращаем Response с заголовками для скачивания файла
         return new StreamedResponse(function () use ($csvData) {
             echo $csvData;
         }, 200, [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="имя_файла.csv"',
+            'Content-Disposition' => 'attachment; filename="' . $currentDateTime . '.csv"',
         ]);
     }
 

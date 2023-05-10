@@ -27,3 +27,15 @@ Need to add telegram secret key to env!
 
 # API requests
 
+POST `http://demo.localhost/api/v1/new/question` створює нове запитання 
+{
+"task": "5*6",
+"answer": ["30","20","35"]
+}
+
+GET `http://demo.localhost/api/v1/create/report`  створює заявку і повертає ідентифікатор репорта
+
+GET `http://demo.localhost/api/v1/get-report/36` : скачування репорту в форматі - csv.
+
+GET `http://demo.localhost/api/v1/get/report/status/33` : повертає статус репорту: not found, not ready, ready
+

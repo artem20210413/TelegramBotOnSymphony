@@ -16,4 +16,13 @@ class ReportController extends AbstractController
         $reportId = $reportService->createReport();
         return $this->json(['ReportId' => $reportId]);
     }
+
+    #[Route('/api/v1/get/report/status/{id}', name: 'create_report', methods: 'GET')]
+    public function status(int $id, ReportService $reportService): Response
+    {
+        $status = $reportService->getStatus($id);
+        return $this->json(['status' => $status]);
+    }
+
+
 }

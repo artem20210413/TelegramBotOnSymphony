@@ -76,10 +76,15 @@ class ReportService
 
     public function download(int $id): Response //TODO создать API
     {
-        //TODO получить data бд по id и преобразовать из строки в массив
 
         $data = $this->reportRepository->getDataById($id);
         return $this->file->download($data, $this->serializer);
+    }
+
+
+    public function getStatus(int $id): string
+    {
+        return $this->reportRepository->getStatus($id);
     }
 
 }

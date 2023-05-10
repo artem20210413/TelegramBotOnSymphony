@@ -63,6 +63,12 @@ class ReportRepository extends ServiceEntityRepository
         return unserialize($dataString);
     }
 
+    public function getStatus(int $id): string
+    {
+        $entityManager = $this->getEntityManager();
+        $report = $this->find($id);
+        return isset($report) ? $report->isIsProcessed() ? 'ready' : 'not ready' : 'not found';
+    }
 
 //    /**
 //     * @return Report[] Returns an array of Report objects
